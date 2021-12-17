@@ -54,7 +54,9 @@ fun ScreenWithAppBar() {
             scope = scope,
             scaffoldState = scaffoldState
         ) },
-        content = { ShowAPokemon(pokemon = pokemon[11]) }
+        content = {
+            ShowAPokemon(pokemon = pokemon[5])
+        }
     )
 }
 
@@ -73,7 +75,6 @@ fun IconWithClickAction(scope: CoroutineScope, scaffoldState: ScaffoldState) {
 
 @Composable
 fun ShowAPokemon(pokemon: Pokemon) {
-
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -115,7 +116,6 @@ fun ContentOfMainScreen(pokemon: Pokemon) {
         modifier = Modifier.verticalScroll(rememberState)
     ) {
         Row(modifier = Modifier.padding(5.dp)) {
-            //DESCRIPTION
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -126,7 +126,6 @@ fun ContentOfMainScreen(pokemon: Pokemon) {
             )
         }
         Row(modifier = Modifier.padding(5.dp)) {
-            //TYPE OF POKEMON
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -138,7 +137,6 @@ fun ContentOfMainScreen(pokemon: Pokemon) {
             )
         }
         Row(modifier = Modifier.padding(5.dp)) {
-            //CATEGORY
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -149,7 +147,6 @@ fun ContentOfMainScreen(pokemon: Pokemon) {
             )
         }
         Row(modifier = Modifier.padding(5.dp)) {
-            //HP
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -160,7 +157,6 @@ fun ContentOfMainScreen(pokemon: Pokemon) {
             )
         }
         Row(modifier = Modifier.padding(5.dp)) {
-            //ATTACK
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -171,7 +167,6 @@ fun ContentOfMainScreen(pokemon: Pokemon) {
             )
         }
         Row(modifier = Modifier.padding(5.dp)) {
-            //DEFENSE
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -182,7 +177,6 @@ fun ContentOfMainScreen(pokemon: Pokemon) {
             )
         }
         Row(modifier = Modifier.padding(5.dp)) {
-            //SPECIAL ATTACK
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -193,7 +187,6 @@ fun ContentOfMainScreen(pokemon: Pokemon) {
             )
         }
         Row(modifier = Modifier.padding(5.dp)) {
-            //SPECIAL DEFENSE
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -204,7 +197,6 @@ fun ContentOfMainScreen(pokemon: Pokemon) {
             )
         }
         Row(modifier = Modifier.padding(5.dp)) {
-            //SPEED
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -215,7 +207,6 @@ fun ContentOfMainScreen(pokemon: Pokemon) {
             )
         }
         Row(modifier = Modifier.padding(5.dp)) {
-            //TOTAL
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {

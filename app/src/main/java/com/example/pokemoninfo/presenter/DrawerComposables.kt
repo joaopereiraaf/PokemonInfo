@@ -8,8 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -66,7 +65,6 @@ fun ContentForDrawer(scope: CoroutineScope, scaffoldState: ScaffoldState) {
 
 @Composable
 fun DrawerPokemon() {
-
     LazyColumn (
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -79,12 +77,15 @@ fun DrawerPokemon() {
 @Composable
 fun CardsForPokemonDrawer(pokemon: Pokemon) {
 
+    var selectedPokemon by remember {
+        mutableStateOf<Pokemon?>(null)
+    }
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable { println("The name of the pokemon is: ${pokemon.name}")},
+            .clickable { selectedPokemon = pokemon },
         elevation = 10.dp,
     ) {
         Row(
