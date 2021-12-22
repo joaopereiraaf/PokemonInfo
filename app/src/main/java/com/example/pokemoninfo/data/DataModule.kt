@@ -12,7 +12,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 @InstallIn(SingletonComponent::class)
 object DataModule {
 
-    val BASE_URL = "https://pokeapi.co/api/v2/"
+    private const val BASE_URL = "https://pokeapi.co/api/v2/"
 
     @Provides
     fun providePokeApi() : PokeApi {

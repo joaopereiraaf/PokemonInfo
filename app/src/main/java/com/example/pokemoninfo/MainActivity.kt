@@ -3,7 +3,6 @@ package com.example.pokemoninfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,9 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
-import coil.transform.CircleCropTransformation
 import com.example.pokemoninfo.data.DataModule
-import com.example.pokemoninfo.data.PokemonInformation
+import com.example.pokemoninfo.data.PokeApiResponse
 import com.google.accompanist.coil.rememberCoilPainter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -27,20 +25,17 @@ class MainActivity : AppCompatActivity() {
     private val disposable = CompositeDisposable()
     private val repoLoadError = MutableLiveData<Boolean>()
     private val loading = MutableLiveData<Boolean>()
-    private val repositoryResponse: MutableList<PokemonInformation> = mutableListOf()
+    private val repositoryResponse: MutableList<PokeApiResponse> = mutableListOf()
 
-    @ExperimentalFoundationApi
-    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         fetchPokemon()
     }
 
-    @ExperimentalFoundationApi
     private fun fetchPokemon() {
 
-        val repository = DataModule.providePokeApi().getPokemon(12)
+        val repository = DataModule.providePokeApi().getPokemon(889)
 
         repository
             .subscribeOn(Schedulers.io())
@@ -59,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                                 Text(text = "TEST")
                             }
                             Row() {
-                                ShowImage(url = repositoryResponse[0].sprites.other.officialArtwork.frontDefault, size = 400)
+                                ShowImage(url = repositoryResponse[0].spritesResponse.otherResponse.officialArtworkResponse.frontDefaultResponse, size = 400)
                             }
                         }
                     }
@@ -87,10 +82,7 @@ fun ShowImage(url: String, size: Int) {
     
     Image(
         painter = rememberCoilPainter(
-            request = url,
-            requestBuilder = {
-                transformations(CircleCropTransformation())
-            }),
+            request = url),
         modifier = Modifier.size(size = size.dp),
         contentDescription = "Profile picture description",
     )
