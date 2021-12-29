@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import com.example.pokemoninfo.data.DataModule
 import com.example.pokemoninfo.data.PokeApiResponse
+import com.example.pokemoninfo.presenter.ScreenWithAppBar
 import com.google.accompanist.coil.rememberCoilPainter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -49,14 +50,7 @@ class MainActivity : AppCompatActivity() {
                     println(repositoryResponse)
 
                     setContent {
-                        Column() {
-                            Row() {
-                                Text(text = "TEST")
-                            }
-                            Row() {
-                                ShowImage(url = repositoryResponse[0].spritesResponse.otherResponse.officialArtworkResponse.frontDefaultResponse, size = 400)
-                            }
-                        }
+                        ScreenWithAppBar()
                     }
 
                     println("WORKED")
@@ -75,15 +69,4 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         disposable.clear()
     }
-}
-
-@Composable
-fun ShowImage(url: String, size: Int) {
-    
-    Image(
-        painter = rememberCoilPainter(
-            request = url),
-        modifier = Modifier.size(size = size.dp),
-        contentDescription = "Profile picture description",
-    )
 }
