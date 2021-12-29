@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         val repository = DataModule.providePokeApi().getPokemon(889)
 
         repository
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { repositoryInfo ->

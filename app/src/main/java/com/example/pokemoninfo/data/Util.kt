@@ -1,8 +1,11 @@
 package com.example.pokemoninfo.data
 
+import android.provider.ContactsContract
 import com.example.pokemoninfo.model.FinalPokedex
 import com.example.pokemoninfo.model.Abilities
 import com.example.pokemoninfo.model.Ability
+import rx.Observable
+
 
 //fun PokeApiResponse.toDomainModel() : FinalPokedex {
 //    return FinalPokedex(
