@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDirection.Companion.Content
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,32 +39,7 @@ fun ContentForDrawer(
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
-        screens.forEach { drawer ->
-            Content(drawer = drawer, onDestinationClicked = {
-                navController.navigate(drawer.route) {
-                    navController.graph.startDestinationRoute?. let { route ->
-                        popUpTo(route = route) {
-                            saveState = true
-                        }
-                    }
-                    launchSingleTop = true
-                    restoreState = true
-                }
-                scope.launch {
-                    scaffoldState.drawerState.close()
-                }
-            })
-            Text(text = "Final")
-        }
-    }
-}
-
-@Composable
-fun Content(drawer: DrawerScreens, onDestinationClicked: (DrawerScreens) -> Unit) {
-    Column() {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
+        Column() {
             Text(
                 text = "Pokemon Info",
                 style = TextStyle(
@@ -71,35 +47,53 @@ fun Content(drawer: DrawerScreens, onDestinationClicked: (DrawerScreens) -> Unit
                     fontFamily = fontItalic
                 )
             )
+
+            screens.forEach { drawer ->
+                Content(drawer = drawer, onDestinationClicked = {
+                    navController.navigate(drawer.route) {
+                        navController.graph.startDestinationRoute?.let { route ->
+                            popUpTo(route = route) {
+                                saveState = true
+                            }
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                    scope.launch {
+                        scaffoldState.drawerState.close()
+                    }
+                })
+            }
         }
-        Column() {
-            Card(
-                elevation = 10.dp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(15.dp)
-                    .clickable { onDestinationClicked(drawer) },
+    }
+}
+
+@Composable
+fun Content(drawer: DrawerScreens, onDestinationClicked: (DrawerScreens) -> Unit) {
+    Column() {
+        Card(
+            elevation = 10.dp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.dp)
+                .clickable { onDestinationClicked(drawer) },
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Column() {
-                        Image(
-                            painter = painterResource(id = R.drawable.dotted),
-                            contentDescription = "something here",
-                            modifier = Modifier
-                                .size(50.dp)
-                        )
-                    }
-                    Column(
+                Column() {
+                    Image(
+                        painter = painterResource(id = R.drawable.dotted),
+                        contentDescription = "something here",
                         modifier = Modifier
-                            .fillMaxWidth(),
-                    ) {
-                        Text(
-                            text = drawer.title,
-                            fontFamily = fontItalic,
-                        )
-                    }
+                            .size(50.dp)
+                    )
+                }
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = drawer.title,
+                        fontFamily = fontItalic,
+                    )
                 }
             }
         }
