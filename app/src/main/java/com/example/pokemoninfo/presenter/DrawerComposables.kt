@@ -3,10 +3,7 @@ package com.example.pokemoninfo.presenter
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,82 +12,95 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.pokemoninfo.R
 import com.example.pokemoninfo.ui.theme.fontItalic
-import com.google.accompanist.coil.rememberCoilPainter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-sealed class DrawerScreens(val title: String) {
-    object Home : DrawerScreens("Home")
-    object Pokemon : DrawerScreens("Account")
-    object Moves : DrawerScreens( "Help")
-}
-
-private val screens = listOf(
-    DrawerScreens.Home,
-    DrawerScreens.Pokemon,
-    DrawerScreens.Moves
-)
-
 @Composable
-fun ContentForDrawer() {
+fun ContentForDrawer(
+    scope: CoroutineScope,
+    scaffoldState: ScaffoldState,
+    navController: NavController
+) {
     PicForTopDrawer()
     Surface(
         modifier = Modifier
             .padding(horizontal = 13.dp)
             .padding(top = 25.dp)
     ) {
-        Column() {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = "Pokemon Info",
-                    style = TextStyle(
-                        fontSize = 35.sp,
-                        fontFamily = fontItalic
-                    )
-                )
-            }
-            Column() {
-                screens.forEach{ screen ->
-                    CardsForPokemonDrawer(screen.title)
+
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+
+        screens.forEach { drawer ->
+            Content(drawer = drawer, onDestinationClicked = {
+                navController.navigate(drawer.route) {
+                    navController.graph.startDestinationRoute?. let { route ->
+                        popUpTo(route = route) {
+                            saveState = true
+                        }
+                    }
+                    launchSingleTop = true
+                    restoreState = true
                 }
-            }
+                scope.launch {
+                    scaffoldState.drawerState.close()
+                }
+            })
+            Text(text = "Final")
         }
     }
 }
 
 @Composable
-fun CardsForPokemonDrawer(str: String) {
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp)
-            .clickable { },
-        elevation = 10.dp,
-    ) {
+fun Content(drawer: DrawerScreens, onDestinationClicked: (DrawerScreens) -> Unit) {
+    Column() {
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Column() {
-                Image(
-                    painter = painterResource(id = R.drawable.dotted),
-                    contentDescription = "something here",
-                    modifier = Modifier
-                        .size(50.dp)
+            Text(
+                text = "Pokemon Info",
+                style = TextStyle(
+                    fontSize = 35.sp,
+                    fontFamily = fontItalic
                 )
-            }
-            Column(
+            )
+        }
+        Column() {
+            Card(
+                elevation = 10.dp,
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .padding(15.dp)
+                    .clickable { onDestinationClicked(drawer) },
             ) {
-                Text(
-                    text = str,
-                    fontFamily = fontItalic,
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column() {
+                        Image(
+                            painter = painterResource(id = R.drawable.dotted),
+                            contentDescription = "something here",
+                            modifier = Modifier
+                                .size(50.dp)
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                    ) {
+                        Text(
+                            text = drawer.title,
+                            fontFamily = fontItalic,
+                        )
+                    }
+                }
             }
         }
     }
@@ -107,11 +117,10 @@ fun PicForTopDrawer() {
     )
 }
 
-@ExperimentalMaterialApi
 @Preview(showBackground = true)
 @Composable
-fun PreviewPokemon() {
-    ContentForDrawer()
+fun LetsTry() {
+    Content(drawer = DrawerScreens.Pokemon, onDestinationClicked = {})
 }
 
 @Preview(showBackground = true)
