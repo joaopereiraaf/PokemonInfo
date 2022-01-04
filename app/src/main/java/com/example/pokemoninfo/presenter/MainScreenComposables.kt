@@ -1,7 +1,7 @@
 package com.example.pokemoninfo.presenter
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,7 +11,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -19,12 +19,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.pokemoninfo.R
+import com.example.pokemoninfo.ui.theme.fontItalic
 import com.google.accompanist.coil.rememberCoilPainter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+val lightLightGray = Color(0xFFBDBDBD)
+
 @Composable
-fun ScreenWithAppBar() {
+fun SingleScreenApp() {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val scope = rememberCoroutineScope()
@@ -37,20 +40,18 @@ fun ScreenWithAppBar() {
                 text = "Pokemon App",
                 color = Color.White
             ) },
-            backgroundColor = Color.Black,
+            backgroundColor = Color.Gray,
             navigationIcon = {
-                IconWithActionToDrawer(scope = scope, scaffoldState = scaffoldState) },
+                NavigationIcon(scope = scope, scaffoldState = scaffoldState) },
         ) },
         drawerContent = {
-            ContentForDrawer(scope = scope, scaffoldState = scaffoldState, navController = navController) },
+            Drawer(scope = scope, scaffoldState = scaffoldState, navController = navController) },
+        content =  { Navigation(navController = navController) }
     )
-    {
-        Navigation(navController = navController)
-    }
 }
 
 @Composable
-fun IconWithActionToDrawer(scope: CoroutineScope, scaffoldState: ScaffoldState) {
+fun NavigationIcon(scope: CoroutineScope, scaffoldState: ScaffoldState) {
     IconButton(
         modifier = Modifier.wrapContentWidth(Alignment.CenterHorizontally),
         onClick = { scope.launch { scaffoldState.drawerState.open() } },
@@ -65,12 +66,13 @@ fun IconWithActionToDrawer(scope: CoroutineScope, scaffoldState: ScaffoldState) 
 @Composable
 fun HomeScreen() {
     Image(
-        painter = rememberCoilPainter(request = R.drawable.pikachu),
+        painter = rememberCoilPainter(request = R.drawable.pokeball),
         contentDescription = "Home",
-        contentScale = ContentScale.Crop,
         modifier = Modifier
-            .fillMaxSize(),
-        )
+            .fillMaxSize()
+            .background(lightLightGray),
+        colorFilter = ColorFilter.tint(Color.Gray)
+    )
 }
 
 @Composable
@@ -116,22 +118,30 @@ fun Navigation(navController: NavHostController) {
     }
 }
 
-@ExperimentalMaterialApi
-@Preview(
-    name = "Dark Theme",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true
-)
-
-//@Composable
-//@Preview(showBackground = true)
-//fun PreviewScreen() {
-//    ScreenWithAppBar(DrawerScreens.Home)
-//}
+@Composable
+fun ErrorScreen() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Something went wrong! :(",
+            fontFamily = fontItalic,
+            fontSize = 40.sp,
+        )
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
-fun ShowPokemonScreen() {
+fun HomeScreenPreview() {
+    HomeScreen()
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PokemonScreenPreview() {
     PokemonScreen()
 }
 

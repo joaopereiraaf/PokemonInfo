@@ -3,10 +3,10 @@ package com.example.pokemoninfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.lifecycle.MutableLiveData
 import com.example.pokemoninfo.data.DataModule
 import com.example.pokemoninfo.data.PokeApiResponse
-import com.example.pokemoninfo.presenter.ScreenWithAppBar
+import com.example.pokemoninfo.presenter.ErrorScreen
+import com.example.pokemoninfo.presenter.SingleScreenApp
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
@@ -15,8 +15,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class MainActivity : AppCompatActivity() {
 
     private val disposable = CompositeDisposable()
-    private val repoLoadError = MutableLiveData<Boolean>()
-    private val loading = MutableLiveData<Boolean>()
     private val repositoryResponse: MutableList<PokeApiResponse> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,22 +32,24 @@ class MainActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { repositoryInfo ->
-                    loading.value = false
-                    repoLoadError.value = false
                     repositoryResponse.add(repositoryInfo)
                     println(repositoryInfo)
                     println(repositoryResponse)
 
                     setContent {
-                        ScreenWithAppBar()
+                        SingleScreenApp()
                     }
 
                     println("WORKED")
                 },
                 {
                     val errorMessage = it.message
-                    loading.value = false
-                    repoLoadError.value = true
+
+                    setContent {
+                        ErrorScreen()
+                        println(errorMessage)
+                    }
+
                     println("DIDN'T WORK")
                 }
             )
