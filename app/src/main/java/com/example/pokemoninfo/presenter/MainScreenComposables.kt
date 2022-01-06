@@ -28,9 +28,10 @@ import kotlinx.coroutines.launch
 
 val lightLightGray = Color(0xFFBDBDBD)
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun SingleScreenApp() {
+fun SingleScreenApp(pokemonName: List<String>) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val scope = rememberCoroutineScope()
@@ -78,6 +79,7 @@ fun HomeScreen() {
     )
 }
 
+@ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
 fun Navigation(navController: NavHostController) {

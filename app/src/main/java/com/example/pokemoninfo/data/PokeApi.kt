@@ -9,5 +9,5 @@ interface PokeApi {
     fun getPokemon(@Path("id") id: Int) : Observable<PokeApiResponse>
 
     @GET("pokemon/?offset=0&limit=90000")
-    fun getListOfPokemonName() : Observable<PokemonResultList>
+    fun getListOfPokemonName() : Observable<PokeApiResponseListPokemon>
 }

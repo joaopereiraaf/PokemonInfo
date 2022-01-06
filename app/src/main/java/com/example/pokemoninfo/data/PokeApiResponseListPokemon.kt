@@ -1,7 +1,5 @@
 package com.example.pokemoninfo.data
 
-data class PokemonResultList(val result: List<PokeApiResponseListPokemon>)
-
 data class PokeApiResponseListPokemon(
     val count: Int,
     val next: Any,
@@ -13,4 +11,3 @@ data class Result(
     val name: String,
     val url: String
 )
-
