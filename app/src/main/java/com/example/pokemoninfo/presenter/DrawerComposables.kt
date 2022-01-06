@@ -8,10 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -134,10 +131,4 @@ fun ShowDrawer() {
 @Composable
 fun LetsTryContent() {
     Content(drawer = DrawerScreens.Pokemon, onDestinationClicked = {})
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ShowPic() {
-    PicForTopDrawer()
 }

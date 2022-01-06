@@ -1,5 +1,6 @@
 package com.example.pokemoninfo.presenter
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -26,6 +28,7 @@ import kotlinx.coroutines.launch
 
 val lightLightGray = Color(0xFFBDBDBD)
 
+@ExperimentalFoundationApi
 @Composable
 fun SingleScreenApp() {
 
@@ -75,34 +78,7 @@ fun HomeScreen() {
     )
 }
 
-@Composable
-fun PokemonScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Pokemon Screen",
-            fontSize = 50.sp,
-        )
-    }
-}
-
-@Composable
-fun MovesScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Moves Screen",
-            fontSize = 50.sp,
-        )
-    }
-}
-
+@ExperimentalFoundationApi
 @Composable
 fun Navigation(navController: NavHostController) {
     NavHost(navController, startDestination = DrawerScreens.Home.route) {
@@ -126,9 +102,10 @@ fun ErrorScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Something went wrong! :(",
+            text = "Something went\n wrong! :(",
             fontFamily = fontItalic,
             fontSize = 40.sp,
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -141,12 +118,6 @@ fun HomeScreenPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun PokemonScreenPreview() {
-    PokemonScreen()
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ShowMovesScreen() {
-    MovesScreen()
+fun ErrorScreenPreview() {
+    ErrorScreen()
 }
