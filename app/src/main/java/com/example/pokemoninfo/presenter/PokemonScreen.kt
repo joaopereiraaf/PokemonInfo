@@ -18,12 +18,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.pokemoninfo.R
+import com.google.accompanist.coil.rememberCoilPainter
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun PokemonScreen(){
-    val list = listOf("pokemon1", "pokemon2", "pokemon3", "pokemon4")
+fun PokemonScreen(pokemonName: MutableList<String>) {
+
+
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = lightLightGray
@@ -39,7 +42,8 @@ fun PokemonScreen(){
                 bottom = 16.dp
             ),
             content = {
-                items(list.size) { pokemonName ->
+                items (pokemonName.size) { id ->
+                    val name = pokemonName[id]
                     Card(
                         modifier = Modifier
                             .padding(5.dp),
@@ -65,7 +69,7 @@ fun PokemonScreen(){
                             )
                             {
                                 Text(
-                                    text = list[pokemonName],
+                                    text = name,
                                     fontSize = 20.sp,
                                     color = Color(0xFFFFFFFF),
                                     textAlign = TextAlign.Center,
@@ -84,5 +88,5 @@ fun PokemonScreen(){
 @Preview(showBackground = true)
 @Composable
 fun PokemonScreenPreview() {
-    PokemonScreen()
+//    PokemonScreen(pokemonName)
 }

@@ -2,9 +2,10 @@ package com.example.pokemoninfo.data
 
 import com.squareup.moshi.Json
 
-data class PokeApiResponse(
+data class PokemonInfo(
     @field:Json(name = "abilities")
     val abilitiesResponse: List<AbilitiesResponse>,
+    val forms: List<Forms>,
     @field:Json(name = "height")
     val heightResponse: Int,
     @field:Json(name = "id")
@@ -94,4 +95,8 @@ data class TypesResponse(
 data class TypeResponse(
     @field:Json(name = "name")
     val nameResponse: String,
+)
+
+data class Forms(
+    val name: String
 )

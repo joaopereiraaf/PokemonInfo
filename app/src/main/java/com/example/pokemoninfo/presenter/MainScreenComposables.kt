@@ -31,7 +31,7 @@ val lightLightGray = Color(0xFFBDBDBD)
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun SingleScreenApp(pokemonName: List<String>) {
+fun SingleScreenApp(pokemonName: MutableList<String>) {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val scope = rememberCoroutineScope()
@@ -50,7 +50,7 @@ fun SingleScreenApp(pokemonName: List<String>) {
         ) },
         drawerContent = {
             Drawer(scope = scope, scaffoldState = scaffoldState, navController = navController) },
-        content =  { Navigation(navController = navController) }
+        content =  { Navigation(navController = navController, pokemonName) }
     )
 }
 
@@ -82,13 +82,13 @@ fun HomeScreen() {
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun Navigation(navController: NavHostController) {
+fun Navigation(navController: NavHostController, pokemonName: MutableList<String>) {
     NavHost(navController, startDestination = DrawerScreens.Home.route) {
         composable(DrawerScreens.Home.route) {
             HomeScreen()
         }
         composable(DrawerScreens.Pokemon.route) {
-            PokemonScreen()
+            PokemonScreen(pokemonName)
         }
         composable(DrawerScreens.Moves.route) {
             MovesScreen()
